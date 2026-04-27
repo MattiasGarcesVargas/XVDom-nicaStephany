@@ -1,4 +1,5 @@
-﻿:root {
+:root {
+  --bg-photo: url('img/fondo.jpg');
   --bg-main: #080809;
   --bg-soft: #131214;
   --card-bg: rgba(13, 12, 14, 0.68);
@@ -31,8 +32,10 @@ body {
   font-family: "Montserrat", sans-serif;
   color: var(--text-main);
   background:
-    radial-gradient(circle at 7% 16%, rgba(233, 184, 200, 0.14), transparent 34%),
-    radial-gradient(circle at 87% 12%, rgba(216, 176, 90, 0.16), transparent 36%),
+    linear-gradient(155deg, rgba(7, 7, 10, 0.76), rgba(8, 8, 10, 0.58) 42%, rgba(7, 7, 10, 0.82)),
+    radial-gradient(circle at 7% 16%, rgba(233, 184, 200, 0.16), transparent 34%),
+    radial-gradient(circle at 87% 12%, rgba(216, 176, 90, 0.18), transparent 36%),
+    var(--bg-photo) center 40% / cover no-repeat,
     linear-gradient(165deg, var(--bg-soft), var(--bg-main));
   overflow-x: hidden;
 }
@@ -42,6 +45,32 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+
+.corner-butterflies {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corner-butterfly {
+  position: absolute;
+  width: clamp(120px, 14vw, 220px);
+  height: auto;
+  opacity: 0.9;
+  transform: rotate(-20deg);
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
+}
+
+.corner-butterfly-top-left {
+  top: 14px;
+  left: 12px;
+}
+
+.corner-butterfly-bottom-right {
+  right: 12px;
+  bottom: 10px;
 }
 
 .flower {
@@ -83,6 +112,51 @@ body {
   left: 3%;
   background: radial-gradient(circle, rgba(233, 184, 200, 0.36), rgba(233, 184, 200, 0.02) 78%);
 }
+
+.petal {
+  --x: 50%;
+  --size: 26px;
+  --dur: 17s;
+  --delay: 0s;
+  --drift: 40px;
+  --rot: -18deg;
+  position: absolute;
+  top: -14vh;
+  left: var(--x);
+  width: var(--size);
+  height: calc(var(--size) * 1.4);
+  border-radius: 62% 38% 68% 32% / 58% 52% 48% 42%;
+  opacity: 0.5;
+  background: radial-gradient(circle at 28% 20%, rgba(255, 245, 250, 0.95), rgba(243, 183, 211, 0.92) 45%, rgba(215, 88, 146, 0.88) 95%);
+  box-shadow: inset -6px -8px 14px rgba(255, 255, 255, 0.18), 0 4px 12px rgba(214, 92, 148, 0.24);
+  transform: rotate(var(--rot));
+  transform-origin: center;
+  animation: petalFall var(--dur) linear infinite;
+  animation-delay: var(--delay);
+  filter: blur(0.15px);
+}
+
+.petal::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12% 34% 16%;
+  border-radius: 64% 36% 52% 48%;
+  background: radial-gradient(circle at 28% 30%, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.06) 82%);
+  opacity: 0.74;
+}
+
+.petal-1 { --x: 8%; --size: 22px; --dur: 19s; --delay: -8s; --drift: 26px; --rot: -24deg; }
+.petal-2 { --x: 16%; --size: 28px; --dur: 15s; --delay: -3s; --drift: 46px; --rot: -10deg; }
+.petal-3 { --x: 24%; --size: 24px; --dur: 17s; --delay: -10s; --drift: 32px; --rot: -28deg; }
+.petal-4 { --x: 34%; --size: 30px; --dur: 20s; --delay: -13s; --drift: 52px; --rot: -14deg; }
+.petal-5 { --x: 43%; --size: 21px; --dur: 14s; --delay: -6s; --drift: 38px; --rot: -32deg; }
+.petal-6 { --x: 52%; --size: 27px; --dur: 18s; --delay: -11s; --drift: 60px; --rot: -8deg; }
+.petal-7 { --x: 61%; --size: 23px; --dur: 16s; --delay: -5s; --drift: 36px; --rot: -22deg; }
+.petal-8 { --x: 69%; --size: 29px; --dur: 21s; --delay: -15s; --drift: 58px; --rot: -12deg; }
+.petal-9 { --x: 77%; --size: 20px; --dur: 13s; --delay: -2s; --drift: 24px; --rot: -30deg; }
+.petal-10 { --x: 85%; --size: 26px; --dur: 19s; --delay: -12s; --drift: 42px; --rot: -18deg; }
+.petal-11 { --x: 92%; --size: 24px; --dur: 17s; --delay: -9s; --drift: 30px; --rot: -26deg; }
+.petal-12 { --x: 96%; --size: 22px; --dur: 15s; --delay: -4s; --drift: 34px; --rot: -16deg; }
 
 .sparkle {
   position: absolute;
@@ -231,6 +305,11 @@ body {
   color: var(--text-soft);
   line-height: 1.76;
   font-size: clamp(0.93rem, 0.87rem + 0.26vw, 1.05rem);
+}
+
+.message-right {
+  text-align: right;
+   font-size: clamp(0.93rem, 0.87rem + 0.26vw, 1.05rem);
 }
 
 .hero-frame {
@@ -417,7 +496,34 @@ body {
   50% { transform: translateY(-8px) translateX(4px); }
 }
 
+@keyframes petalFall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(var(--rot));
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(calc(var(--drift) * 0.6), 52vh, 0) rotate(calc(var(--rot) + 95deg));
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(var(--drift), 115vh, 0) rotate(calc(var(--rot) + 200deg));
+    opacity: 0;
+  }
+}
+
 @media (max-width: 760px) {
+  body {
+    background:
+      linear-gradient(155deg, rgba(7, 7, 10, 0.82), rgba(8, 8, 10, 0.64) 42%, rgba(7, 7, 10, 0.88)),
+      radial-gradient(circle at 7% 16%, rgba(233, 184, 200, 0.12), transparent 34%),
+      radial-gradient(circle at 87% 12%, rgba(216, 176, 90, 0.14), transparent 36%),
+      var(--bg-photo) center 28% / cover no-repeat,
+      linear-gradient(165deg, var(--bg-soft), var(--bg-main));
+  }
+
   .actions {
     grid-template-columns: 1fr;
   }
@@ -437,6 +543,33 @@ body {
   .butterfly-right {
     right: 14px;
     bottom: 24px;
+  }
+
+  .corner-butterfly {
+    width: clamp(92px, 24vw, 150px);
+    opacity: 0.82;
+  }
+
+  .corner-butterfly-top-left {
+    top: 10px;
+    left: 8px;
+  }
+
+  .corner-butterfly-bottom-right {
+    right: 8px;
+    bottom: 8px;
+  }
+
+  .petal {
+    --size: 20px;
+    opacity: 0.42;
+  }
+
+  .petal-4,
+  .petal-8,
+  .petal-11,
+  .petal-12 {
+    display: none;
   }
 }
 
